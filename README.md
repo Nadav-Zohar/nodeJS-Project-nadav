@@ -18,23 +18,25 @@ npm i
 
 you can run:
 
-### `npm start`
-
-- It will run the app with node
-- The page will not reload if you make edits.
-- You must have a mongoDB Atlas Cluster
-
-### `npm run dev`
+### `nodemon`
 
 - Runs the app with nodemon
 - The page will reload if you make edits
-- The print at the terminal will be purple with the message:
+- The print at the terminal will be green with the message:
 
-`Listening on: http://localhost:8181`
+`Listening on: http://localhost:4001`
 
-And if there are no login errors you should see the message painted in purple:
+### `.env`
 
-`connected to MongoDb Locally!`
+- I made the .env file to stay so you can chagne what ever you want.
+- You can change the REMOTE_URL for your mongo localy.
+- You can change the PORT also for your liking.
+
+If there is data for users and cards you should see the message painted in purple:
+
+`Data found in both collections. Continue with your app logic.`
+
+Else it will create new data, and log it.
 
 ## Available Routes
 
@@ -70,10 +72,10 @@ In the request body you will need to provide an object with the following keys a
 |            |         | city        | string | 2   | 256 | required |
 |            |         | street      | string | 2   | 256 | required |
 |            |         | houseNumber | number | 2   | 256 | required |
-|            |         | zip         | number | 2   | 256 | required |
+|            |         | zip         | number | 2   | 256 |          |
 | isBusiness | boolean |             |        |     |     | required |
 
-- "password" must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
+- "password" must be at least six characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
 - "phone" must be a standard Israeli phone number
 - "email" must be a standard email
 - "image/url" must be a standard URL
@@ -91,10 +93,10 @@ In the request body you will need to provide an object with the following keys a
 | index    | type   | min | max | remark   |
 | -------- | ------ | --- | --- | -------- |
 | email    | string | 5   |     | required |
-| password | string | 7   | 20  | required |
+| password | string | 6   | 20  | required |
 
 - "email" must be a standard email
-- "password" must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
+- "password" must be at least six characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
 
 ### Response
 
@@ -146,7 +148,6 @@ In the request body you will need to provide an object with the following keys a
 |            |         | last        | string | 2   | 256 | required |
 | phone      | string  |             |        | 9   | 11  | required |
 | email      | string  |             |        | 5   |     | required |
-| password   | string  |             |        | 7   | 20  | required |
 | image      | object  |             |        |     |     | required |
 |            |         | url         | string | 14  |     | required |
 |            |         | alt         | string | 2   | 256 | required |
@@ -156,15 +157,15 @@ In the request body you will need to provide an object with the following keys a
 |            |         | city        |        | 2   | 256 | required |
 |            |         | street      |        | 2   | 256 | required |
 |            |         | houseNumber |        | 2   | 256 | required |
-|            |         | zip         |        | 2   | 256 | required |
+|            |         | zip         |        | 2   | 256 |          |
 | isBusiness | boolean |             |        |     |     | required |
 
-- The user "password" must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&\*-
 - "phone" must be a standard Israeli phone number
 - "email" must be a standard email
 - "image/url" must be a standard URL
+
 - You will need to provide a token to get an answer from this api
-- You need to be Admin to get an answer from this api
+- You need to be the registerd user to get an answer from this api
 
 #### API for deleting a user
 
@@ -182,7 +183,7 @@ In the request body you will need to provide an object with the following keys a
 ```
 
 - You will need to provide a token to get an answer from this api
-- You will need to be the registered user or Admin to get an answer from this api
+- You will need to be the registered user to get an answer from this api
 
 ### Cards API
 
@@ -192,7 +193,7 @@ In the request body you will need to provide an object with the following keys a
   GET /api/cards/
 ```
 
-#### API for get a business card of a specific business
+#### API to get a business card of a specific business
 
 ```http
   GET /api/cards/:id
@@ -228,10 +229,10 @@ In the request body you will need to provide an object with the following keys a
 |             |        | url         | string | 14  |      |          |
 |             |        | alt         | string | 2   | 256  |          |
 | address     | object |             |        |     |      | required |
-|             |        | state       | string |     |      |          |
-|             |        | country     | string |     |      | required |
-|             |        | city        | string |     |      | required |
-|             |        | street      | string |     |      | required |
+|             |        | state       | string |     | 256  |          |
+|             |        | country     | string | 2   | 256  | required |
+|             |        | city        | string | 2   | 256  | required |
+|             |        | street      | string | 2   | 256  | required |
 |             |        | houseNumber | number | 1   |      | required |
 |             |        | zip         | number |     |      |          |
 
@@ -239,6 +240,7 @@ In the request body you will need to provide an object with the following keys a
 - "email" must be a standard email
 - "web" must be a standard URL
 - "image/url" must be a standard URL
+- 
 - You will need to provide a token to get an answer from this api
 - You will need to be a Business type user to get an answer from this api
 
@@ -264,10 +266,10 @@ In the request body you will need to provide an object with the following keys a
 |             |        | url         | string | 14  |      |          |
 |             |        | alt         | string | 2   | 256  |          |
 | address     | object |             |        |     |      | required |
-|             |        | state       | string |     |      |          |
-|             |        | country     | string |     |      | required |
-|             |        | city        | string |     |      | required |
-|             |        | street      | string |     |      | required |
+|             |        | state       | string |     | 256  |          |
+|             |        | country     | string | 2   | 256  | required |
+|             |        | city        | string | 2   | 256  | required |
+|             |        | street      | string | 2   | 256  | required |
 |             |        | houseNumber | number | 1   |      | required |
 |             |        | zip         | number |     |      |          |
 
@@ -275,6 +277,7 @@ In the request body you will need to provide an object with the following keys a
 - "email" must be a standard email
 - "web" must be a standard URL
 - "image/url" must be a standard URL
+- 
 - You will need to provide a token to get an answer from this api
 - You will need to be a Business type user to get an answer from this api
 
@@ -289,7 +292,7 @@ In the request body you will need to provide an object with the following keys a
 #### API for changing the business number
 
 ```http
-	PATCH /api/cards/biz-number/:id
+	PATCH /api/cards/biz/:id
 ```
 
 ### Request
