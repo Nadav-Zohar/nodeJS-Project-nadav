@@ -33,7 +33,9 @@ dotenv.config();
 async function main() {
   try {
     await mongoose.connect(process.env.REMOTE_URL);
-    console.log(chalk.green("MongoDB connection established on port 27017"));
+    console.log(
+      chalk.green(`Listening on: http://localhost:${process.env.PORT}`)
+    );
 
     const db = mongoose.connection.db;
     const collection1DataCount = await db.collection("users").countDocuments();
@@ -45,7 +47,7 @@ async function main() {
       startExpressApp();
     } else {
       console.log(
-        chalk.green(
+        chalk.redBright(
           "Data found in both collections. Continue with your app logic."
         )
       );
